@@ -11,8 +11,7 @@
 
     <h1>Aim Trainer 🎯</h1>
 
-
-    <!-- PSEUDO -->
+    <!-- ================= PSEUDO ================= -->
 
     <div id="usernameBox">
 
@@ -32,7 +31,7 @@
     </div>
 
 
-    <!-- MENU -->
+    <!-- ================= MENU ================= -->
 
     <div id="mainMenu">
 
@@ -41,7 +40,7 @@
         </button>
 
 
-        <!-- CROSSHAIR -->
+        <!-- ================= CROSSHAIR ================= -->
 
         <div id="crosshairBox">
 
@@ -84,18 +83,18 @@
         </div>
 
 
-        <!-- JOUER -->
+        <!-- ================= JOUER ================= -->
 
-        <a href="index.html" id="playButton">
+        <a href="game.html" id="playButton">
             JOUER
         </a>
 
 
-        <!-- CLASSEMENT -->
+        <!-- ================= CLASSEMENT ================= -->
 
         <div id="leaderboard">
 
-            <h2>🌍 Classement mondial</h2>
+            <h2>🌍 Classement</h2>
 
             <div class="rank">
                 <span>🥇</span>
@@ -135,17 +134,14 @@
                     <strong id="bestScore">0</strong>
                 </p>
 
-                <p>
-                    🌍 <strong>Ta place :</strong>
-                    <strong>#1</strong>
-                </p>
-
             </div>
 
         </div>
 
     </div>
 
+
+    <!-- ================= JAVASCRIPT DU MENU ================= -->
 
     <script>
 
@@ -177,7 +173,7 @@
             document.querySelectorAll(".crosshairChoice");
 
 
-        // DONNÉES SAUVEGARDÉES
+        // ================= DONNÉES SAUVEGARDÉES =================
 
         const savedUsername =
             localStorage.getItem("username");
@@ -196,7 +192,7 @@
             savedScore;
 
 
-        // PSEUDO
+        // ================= PSEUDO =================
 
         if (savedUsername) {
 
@@ -213,10 +209,11 @@
 
             mainMenu.style.display =
                 "none";
+
         }
 
 
-        // CROSSHAIR ACTUEL
+        // ================= CROSSHAIR SAUVEGARDÉ =================
 
         crosshairChoices.forEach(button => {
 
@@ -232,82 +229,102 @@
         });
 
 
-        // CONFIRMER PSEUDO
+        // ================= CONFIRMER PSEUDO =================
 
-        confirmUsername.addEventListener("click", () => {
+        confirmUsername.addEventListener(
+            "click",
+            () => {
 
-            const username =
-                usernameInput.value.trim();
+                const username =
+                    usernameInput.value.trim();
 
-            if (username === "") {
+                if (username === "") {
 
-                alert("Entre un pseudo !");
+                    alert("Entre un pseudo !");
 
-                return;
+                    return;
+
+                }
+
+
+                localStorage.setItem(
+                    "username",
+                    username
+                );
+
+
+                rank1Name.textContent =
+                    username;
+
+
+                usernameBox.style.display =
+                    "none";
+
+                mainMenu.style.display =
+                    "block";
+
             }
-
-            localStorage.setItem(
-                "username",
-                username
-            );
-
-            rank1Name.textContent =
-                username;
-
-            usernameBox.style.display =
-                "none";
-
-            mainMenu.style.display =
-                "block";
-
-        });
+        );
 
 
-        // CHANGER PSEUDO
+        // ================= CHANGER PSEUDO =================
 
-        changeUsername.addEventListener("click", () => {
+        changeUsername.addEventListener(
+            "click",
+            () => {
 
-            usernameBox.style.display =
-                "block";
+                usernameBox.style.display =
+                    "block";
 
-            mainMenu.style.display =
-                "none";
-
-            usernameInput.value =
-                localStorage.getItem("username") || "";
-
-            usernameInput.focus();
-
-        });
+                mainMenu.style.display =
+                    "none";
 
 
-        // CHOISIR CROSSHAIR
+                usernameInput.value =
+                    localStorage.getItem("username") || "";
+
+
+                usernameInput.focus();
+
+            }
+        );
+
+
+        // ================= CHOISIR CROSSHAIR =================
 
         crosshairChoices.forEach(button => {
 
-            button.addEventListener("click", () => {
+            button.addEventListener(
+                "click",
+                () => {
 
-                const selected =
-                    button.dataset.crosshair;
+                    const selected =
+                        button.dataset.crosshair;
 
-                localStorage.setItem(
-                    "crosshair",
-                    selected
-                );
 
-                crosshairChoices.forEach(otherButton => {
+                    localStorage.setItem(
+                        "crosshair",
+                        selected
+                    );
 
-                    otherButton.classList.remove(
+
+                    crosshairChoices.forEach(
+                        otherButton => {
+
+                            otherButton.classList.remove(
+                                "selected"
+                            );
+
+                        }
+                    );
+
+
+                    button.classList.add(
                         "selected"
                     );
 
-                });
-
-                button.classList.add(
-                    "selected"
-                );
-
-            });
+                }
+            );
 
         });
 
