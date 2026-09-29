@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Aim Trainer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body id="menuPage">
+
+    <h1>Aim Trainer 🎯</h1>
+
+
+    <!-- PSEUDO -->
+
+    <div id="usernameBox">
+
+        <h2>Choisis ton pseudo</h2>
+
+        <input
+            type="text"
+            id="usernameInput"
+            placeholder="Ton pseudo..."
+            maxlength="16"
+        >
+
+        <button id="confirmUsername">
+            Confirmer
+        </button>
+
+    </div>
+
+
+    <!-- MENU -->
+
+    <div id="mainMenu">
+
+        <button id="changeUsername">
+            ✏️ Changer de pseudo
+        </button>
+
+
+        <!-- CROSSHAIR -->
+
+        <div id="crosshairBox">
+
+            <h2>🎯 Choisis ton crosshair</h2>
+
+            <div id="crosshairChoices">
+
+                <button
+                    class="crosshairChoice"
+                    data-crosshair="dot">
+                    •
+                </button>
+
+                <button
+                    class="crosshairChoice"
+                    data-crosshair="cross">
+                    +
+                </button>
+
+                <button
+                    class="crosshairChoice"
+                    data-crosshair="bigCross">
+                    ✚
+                </button>
+
+                <button
+                    class="crosshairChoice"
+                    data-crosshair="circle">
+                    ⊙
+                </button>
+
+                <button
+                    class="crosshairChoice"
+                    data-crosshair="diamond">
+                    ◇
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- JOUER -->
+
+        <a href="index.html" id="playButton">
+            JOUER
+        </a>
+
+
+        <!-- CLASSEMENT -->
+
+        <div id="leaderboard">
+
+            <h2>🌍 Classement mondial</h2>
+
+            <div class="rank">
+                <span>🥇</span>
+                <strong id="rank1Name">---</strong>
+                <span id="rank1Score">0</span>
+            </div>
+
+            <div class="rank">
+                <span>🥈</span>
+                <strong>---</strong>
+                <span>0</span>
+            </div>
+
+            <div class="rank">
+                <span>🥉</span>
+                <strong>---</strong>
+                <span>0</span>
+            </div>
+
+            <div class="rank">
+                <span>4.</span>
+                <strong>---</strong>
+                <span>0</span>
+            </div>
+
+            <div class="rank">
+                <span>5.</span>
+                <strong>---</strong>
+                <span>0</span>
+            </div>
+
+
+            <div class="yourScore">
+
+                <p>
+                    🏆 <strong>Meilleur score :</strong>
+                    <strong id="bestScore">0</strong>
+                </p>
+
+                <p>
+                    🌍 <strong>Ta place :</strong>
+                    <strong>#1</strong>
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const usernameInput =
+            document.getElementById("usernameInput");
+
+        const confirmUsername =
+            document.getElementById("confirmUsername");
+
+        const usernameBox =
+            document.getElementById("usernameBox");
+
+        const mainMenu =
+            document.getElementById("mainMenu");
+
+        const changeUsername =
+            document.getElementById("changeUsername");
+
+        const rank1Name =
+            document.getElementById("rank1Name");
+
+        const rank1Score =
+            document.getElementById("rank1Score");
+
+        const bestScore =
+            document.getElementById("bestScore");
+
+        const crosshairChoices =
+            document.querySelectorAll(".crosshairChoice");
+
+
+        // DONNÉES SAUVEGARDÉES
+
+        const savedUsername =
+            localStorage.getItem("username");
+
+        const savedScore =
+            localStorage.getItem("bestScore") || 0;
+
+        const savedCrosshair =
+            localStorage.getItem("crosshair") || "dot";
+
+
+        bestScore.textContent =
+            savedScore;
+
+        rank1Score.textContent =
+            savedScore;
+
+
+        // PSEUDO
+
+        if (savedUsername) {
+
+            rank1Name.textContent =
+                savedUsername;
+
+            usernameBox.style.display =
+                "none";
+
+            mainMenu.style.display =
+                "block";
+
+        } else {
+
+            mainMenu.style.display =
+                "none";
+        }
+
+
+        // CROSSHAIR ACTUEL
+
+        crosshairChoices.forEach(button => {
+
+            if (
+                button.dataset.crosshair ===
+                savedCrosshair
+            ) {
+
+                button.classList.add("selected");
+
+            }
+
+        });
+
+
+        // CONFIRMER PSEUDO
+
+        confirmUsername.addEventListener("click", () => {
+
+            const username =
+                usernameInput.value.trim();
+
+            if (username === "") {
+
+                alert("Entre un pseudo !");
+
+                return;
+            }
+
+            localStorage.setItem(
+                "username",
+                username
+            );
+
+            rank1Name.textContent =
+                username;
+
+            usernameBox.style.display =
+                "none";
+
+            mainMenu.style.display =
+                "block";
+
+        });
+
+
+        // CHANGER PSEUDO
+
+        changeUsername.addEventListener("click", () => {
+
+            usernameBox.style.display =
+                "block";
+
+            mainMenu.style.display =
+                "none";
+
+            usernameInput.value =
+                localStorage.getItem("username") || "";
+
+            usernameInput.focus();
+
+        });
+
+
+        // CHOISIR CROSSHAIR
+
+        crosshairChoices.forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const selected =
+                    button.dataset.crosshair;
+
+                localStorage.setItem(
+                    "crosshair",
+                    selected
+                );
+
+                crosshairChoices.forEach(otherButton => {
+
+                    otherButton.classList.remove(
+                        "selected"
+                    );
+
+                });
+
+                button.classList.add(
+                    "selected"
+                );
+
+            });
+
+        });
+
+    </script>
+
+</body>
+
+</html>
